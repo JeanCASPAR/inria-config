@@ -1,7 +1,7 @@
 {
   disko.devices = {
     disk = {
-      nvme1n1 = {
+      nvme0n1 = {
         type = "disk";
         device = "/dev/nvme0n1";
         content = {
@@ -20,8 +20,8 @@
               };
             };
             luks = {
-              size = "100%";
               label = "luks";
+              size = "100%";
               content = {
                 type = "luks";
                 name = "cryptroot";
