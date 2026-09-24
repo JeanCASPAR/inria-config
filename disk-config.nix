@@ -25,9 +25,7 @@
               content = {
                 type = "luks";
                 name = "cryptroot";
-                extraOpenArgs = [
-                  "--allow-discards"
-                ];
+                settings.allowDiscards = true;
                 content = {
                   type = "filesystem";
                   format = "ext4";

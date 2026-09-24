@@ -16,10 +16,9 @@
     grub = {
       enable = true;
       efiSupport = true;
+      efiInstallAsRemovable = true;
       device = "nodev";
     };
-    efi.canTouchEfiVariables = true;
-    efi.canTouchEfiVariables = true;
     timeout = 10;
   };
 
@@ -60,7 +59,7 @@
 
   # Thunderbolt
   services.hardware.bolt.enable = true;
-  
+
   # Enable bluetooth.
   hardware.bluetooth = {
     enable = true;
