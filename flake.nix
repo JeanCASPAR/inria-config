@@ -13,13 +13,14 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixos-hardware, ... }: {
+  outputs = inputs@{ self, nixpkgs, nixos-hardware, disko, ... }: {
     nixosConfigurations.jcaspar-pro = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        nixos-hardware.lenovo-thinkpad-p14s-amd-gen6
+        nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen6
        ./configuration.nix
        disko.nixosModules.disko
       ];
     };
   };
+}
