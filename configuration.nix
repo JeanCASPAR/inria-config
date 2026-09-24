@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./disk-config.nix
     ];
 
   # Bootloader
@@ -56,6 +57,9 @@
   
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  # Thunderbolt
+  services.hardware.bolt.enable = true;
   
   # Enable bluetooth.
   hardware.bluetooth = {

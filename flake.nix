@@ -7,6 +7,10 @@
       url = "github:NixOS/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixos-hardware, ... }: {
@@ -15,6 +19,7 @@
       modules = [
         nixos-hardware.lenovo-thinkpad-p14s-amd-gen6
        ./configuration.nix
+       disko.nixosModules.disko
       ];
     };
   };

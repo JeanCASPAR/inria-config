@@ -8,34 +8,34 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_s>
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" "rtsx_pc_sdmmc" ];
   boot.initrd.kernelModules = [ "dm-snapshot" "cryptd" ];
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-label/LUKS";
+#  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-label/LUKS";
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-label/ROOT";
-      fsType = "ext4";
-    };
-
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-label/BOOT";
-      fsType = "vfat";
-      options = [ "fmask=0077" "dmask=0077" ];
-    };
-
-  fileSystems."/home" =
-    { device = "/dev/disk/by-label/HOME";
-      fsType = "ext4";
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-label/SWAP"; }
-    ];
+#  fileSystems."/" =
+#    { device = "/dev/disk/by-label/ROOT";
+#      fsType = "ext4";
+#    };
+#
+#
+#  fileSystems."/boot" =
+#    { device = "/dev/disk/by-label/BOOT";
+#      fsType = "vfat";
+#      options = [ "fmask=0077" "dmask=0077" ];
+#    };
+#
+#  fileSystems."/home" =
+#    { device = "/dev/disk/by-label/HOME";
+#      fsType = "ext4";
+#    };
+#
+#  swapDevices =
+#    [ { device = "/dev/disk/by-label/SWAP"; }
+#    ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = true;
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedist>
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
