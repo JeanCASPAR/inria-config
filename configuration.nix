@@ -11,6 +11,12 @@
       ./disk-config.nix
     ];
 
+  # TODO: virer
+  nixpkgs.config.permittedInsecurePackages = [
+    "firefox-esr-140-bin-unwrapped-140.17.0esr"
+  ];
+
+
   # Bootloader
   boot.loader = {
     grub = {
@@ -18,8 +24,23 @@
       efiSupport = true;
       efiInstallAsRemovable = true;
       device = "nodev";
+      darkmatter-theme = {
+        enable = true;
+        style = "nixos";
+        icon = "color";
+        resolution = "1080p";
+      };
     };
     timeout = 10;
+  };
+  boot.plymouth = {
+    enable = true;
+    theme = "pixels";
+    themePackages = with pkgs; [
+      (adi1090x-plymouth-themes.override {
+        selected_themes = [ "pixels" ];
+      })
+    ];
   };
 
   networking.hostName = "jcaspar-pro"; # Define your hostname.
@@ -28,6 +49,8 @@
   networking.networkmanager.plugins = with pkgs; [
     networkmanager-openconnect
     networkmanager-openvpn
+    networkmanager-libreswan
+    networkmanager-l2tp
   ];
 
   # Set your time zone.
@@ -46,7 +69,7 @@
     enable = true;
     xkb = {
       layout = "fr";
-      variant = "afnor";
+      variant = "azerty";
     };
   };
 
@@ -109,10 +132,22 @@
 
   # programs.firefox.enable = true;
 
+  programs.steam = {
+    enable = true;
+    protontricks.enable = true;
+  };
+  hardware.steam-hardware.enable = true;
+
+  programs.gamescope = {
+    enable = true;
+    enableWsi = true;
+    capSysNice = true;
+  };
+
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    file gparted
+    file gparted openssl
     wget python3 firefox
     man-pages man-pages-posix
   ];
@@ -136,6 +171,26 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  # Firmware update
+  services.fwupd.enable = true;
+
+  services.gnome.gnome-keyring.enable = true;
+  xdg.portal.enable = true;
+
+  services.glpiAgent = {
+    enable = true;
+    settings = {
+      server = [ "https://gtpi.inria.fr/glpiagent/" ];
+      no-ssl-check = false;
+      no-httpd = false;
+      httpd-ip = "localhost";
+      no-task = "deploy";
+      scan-homedirs = "printer";
+      no-category = [ "printer" ];
+      tag = "PARC";
+    };
+  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
